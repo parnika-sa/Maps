@@ -1,0 +1,23 @@
+2026-01-02 15:23:42,299 - INFO - Starting scraper for: Marketing Agency in Mohali
+2026-01-02 15:23:42,300 - INFO - Config: headless=False, max_results=10, skip_emails=False
+2026-01-02 15:23:46,952 - INFO - Loading Google Maps...
+2026-01-02 15:23:48,143 - INFO - Searching for: Marketing Agency in Mohali
+2026-01-02 15:23:49,355 - INFO - Waiting for results...
+2026-01-02 15:23:53,777 - INFO - Scrolling results panel...
+2026-01-02 15:25:17,558 - INFO - Checkpoint saved: 10 businesses processed
+2026-01-02 15:25:17,559 - INFO - Processing complete. Total collected: 10
+2026-01-02 15:25:18,010 - INFO - Deduplicating businesses...
+2026-01-02 15:25:18,010 - INFO - {'name': 'Wood Box Digital Media Pvt. Ltd. | Creative Digital Marketing, Website Designing Development & SEO Services Company in Mohali', 'address': 'E-325 Ground Floor, Industrial Area, Sector 75, Sahibzada Ajit Singh Nagar, Punjab 140307', 'phone': '087448 55000', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 15:25:18,010 - INFO - {'name': 'Amrit Web (OPC) Pvt Ltd | Best Digital Marketing Company in Mohali', 'address': '4th Floor, Miran Tower, E-331, Phase 8B, Industrial Area, Sector 74, Sahibzada Ajit Singh Nagar, Punjab 140307', 'phone': '097796 58581', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 15:25:18,010 - INFO - {'name': 'Viwork Digital: Best SEO, Social Media & Marketing Company in Mohali', 'address': 'Cabin no 5, 3rd floor, F-88, Phase 7, Industrial Area, Sector 74, Sahibzada Ajit Singh Nagar, Punjab 160055', 'phone': '097791 96156', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 15:25:18,010 - INFO - {'name': 'Leading Edge Info Solutions - Best Digital Marketing, SEO, PPC Agency in Mohali, India', 'address': 'Ground Floor, E-221, Phase 8B, Industrial Area, Sector 74, Sahibzada Ajit Singh Nagar, Punjab 160071', 'phone': '078377 77045', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 15:25:18,011 - INFO - {'name': 'YouNedia - Best Digital Marketing Agency in Mohali | Social Media Marketing | Best SEO services', 'address': 'First Floor, Cloud View 75, Plot Number E-272, Industrial Area, Sector 75, Sahibzada Ajit Singh Nagar, Punjab 140307', 'phone': '093686 97783', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 15:25:18,012 - INFO - 
+==================================================
+2026-01-02 15:25:18,013 - INFO - ==================================================
+2026-01-02 15:25:18,013 - INFO - Total businesses: 9
+2026-01-02 15:25:18,013 - INFO - With phone number: 9 (100%)
+2026-01-02 15:25:18,013 - INFO - With website: 0 (0%)
+2026-01-02 15:25:18,013 - INFO - With email: 0 (0%)
+2026-01-02 15:25:18,013 - INFO - ==================================================
+2026-01-02 15:25:18,013 - INFO - Checkpoint cleaned up

@@ -1,0 +1,16 @@
+2026-01-02 14:56:45,075 - INFO - Starting scraper for: Marketing agency in Mohali
+2026-01-02 14:56:45,075 - INFO - Config: headless=True, max_results=20, skip_emails=False
+2026-01-02 14:56:52,945 - INFO - Loading Google Maps...
+2026-01-02 14:57:00,198 - INFO - Searching for: Marketing agency in Mohali
+2026-01-02 14:57:01,460 - INFO - Waiting for results...
+2026-01-02 14:57:08,373 - INFO - Scrolling results panel...
+2026-01-02 14:57:55,689 - INFO - Checkpoint saved: 10 businesses processed
+2026-01-02 14:58:36,324 - INFO - Checkpoint saved: 20 businesses processed
+2026-01-02 14:58:36,324 - INFO - Processing complete. Total collected: 20
+2026-01-02 14:58:36,436 - INFO - Deduplicating businesses...
+2026-01-02 14:58:36,439 - INFO - {'name': 'Wood Box Digital Media Pvt. Ltd. | Creative Digital Marketing, Website Designing Development & SEO Services Company in Mohali', 'address': 'E-325 Ground Floor, Industrial Area, Sector 75, Sahibzada Ajit Singh Nagar, Punjab 140307', 'phone': '087448 55000', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 14:58:36,439 - INFO - {'name': 'Viwork Digital: Best SEO, Social Media & Marketing Company in Mohali', 'address': 'Cabin no 5, 3rd floor, F-88, Phase 7, Industrial Area, Sector 74, Sahibzada Ajit Singh Nagar, Punjab 160055', 'phone': '097791 96156', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 14:58:36,440 - INFO - {'name': 'HMV Technologies | Digital Marketing & Web Development in Chandigarh, Mohali & Panchkula', 'address': '3RD Floor, NP Tower, F 464, Phase 8B, Sector 74, Sahibzada Ajit Singh Nagar, Punjab 140307', 'phone': '090560 55400', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 14:58:36,440 - INFO - {'name': 'Leading Edge Info Solutions - Best Digital Marketing, SEO, PPC Agency in Mohali, India', 'address': 'Ground Floor, E-221, Phase 8B, Industrial Area, Sector 74, Sahibzada Ajit Singh Nagar, Punjab 160071', 'phone': '078377 77045', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 14:58:36,440 - INFO - {'name': 'YouNedia - Best Digital Marketing Agency in Mohali | Social Media Marketing | Best SEO services', 'address': 'Imperial Tower, 721, CP67, Airport Road, Sector 67, Sahibzada Ajit Singh Nagar, Punjab 160062', 'phone': '082530 00032', 'website': 'N/A', 'emails': 'N/A'}
+2026-01-02 14:58:36,443 - INFO - Checkpoint cleaned up
