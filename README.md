@@ -7,6 +7,7 @@ A professional automation tool to scrape business data (name, phone, website, em
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.0+-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Tests](https://img.shields.io/badge/Tests-Included-brightgreen)
 
 ---
 
@@ -52,6 +53,20 @@ Then:
 4. Download CSV or JSON
 
 **That's it!** ✅
+
+---
+
+## 🧪 **Verify Installation**
+
+Run the test suite:
+```bash
+python test_setup.py
+```
+
+**Output:**
+```
+✅ All tests passed! Ready to run.
+```
 
 ---
 
@@ -274,12 +289,17 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
-### **4. Run**
+### **4. Verify Setup**
+```bash
+python test_setup.py
+```
+
+### **5. Run**
 ```bash
 python app.py
 ```
 
-### **5. Open Browser**
+### **6. Open Browser**
 ```
 http://localhost:5000
 ```
@@ -288,15 +308,17 @@ Done! 🎉
 
 ---
 
-## 📝 **License**
+## 🤝 **Contributing**
 
-MIT License - Free to use for personal & commercial projects
+Want to improve this? Check [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 🤝 **Contributing**
+## 📝 **License**
 
-Got ideas to improve? Send pull request!
+MIT License - See [LICENSE](LICENSE) for details
+
+Free to use for personal & commercial projects
 
 ---
 
