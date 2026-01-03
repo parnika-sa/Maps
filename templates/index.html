@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Maps Business Scraper</title>
+    <title>Google Maps Business Scraper Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,66 +13,102 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        .container {
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        /* LEFT PANEL - FORM */
+        .form-panel {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             overflow: hidden;
+            animation: slideInLeft 0.5s ease-out;
         }
 
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px 20px;
+            padding: 40px 30px;
             text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '📍';
+            font-size: 48px;
+            display: block;
+            margin-bottom: 15px;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .header p {
             opacity: 0.9;
             font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         .content {
-            padding: 30px;
+            padding: 40px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 28px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: #333;
-            font-size: 14px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-icon {
+            font-size: 18px;
         }
 
         input[type="text"],
         input[type="number"],
         select {
             width: 100%;
-            padding: 12px;
+            padding: 14px 16px;
             border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
             font-family: inherit;
         }
 
@@ -80,30 +117,45 @@
         select:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: #f8f9ff;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
         }
 
         .checkbox-group {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .checkbox-item:hover {
+            background: #eff1ff;
         }
 
         input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: #667eea;
         }
@@ -111,22 +163,33 @@
         .checkbox-item label {
             margin: 0;
             font-weight: 500;
-            color: #555;
+            color: #333;
             cursor: pointer;
+            flex: 1;
+        }
+
+        .timeout-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #1565c0;
+            margin-top: 8px;
         }
 
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-top: 25px;
+            gap: 12px;
+            margin-top: 35px;
         }
 
         button {
             flex: 1;
-            padding: 12px 20px;
+            padding: 14px 24px;
             border: none;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -135,11 +198,15 @@
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
         }
 
         .btn-primary:disabled {
@@ -154,76 +221,168 @@
 
         .btn-secondary:hover {
             background: #e0e0e0;
+            transform: translateY(-2px);
         }
 
-        .status-section {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid #f0f0f0;
+        /* RIGHT PANEL - STATUS/RESULTS */
+        .status-panel {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            margin-bottom: 25px;
+        }
+
+        .status-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .status-message {
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 14px;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 15px;
             display: none;
+            animation: slideDown 0.3s ease-out;
         }
 
         .status-info {
             background: #e3f2fd;
             color: #1565c0;
-            border-left: 4px solid #1565c0;
+            border-left: 4px solid #2196F3;
         }
 
         .status-success {
             background: #e8f5e9;
             color: #2e7d32;
-            border-left: 4px solid #2e7d32;
+            border-left: 4px solid #4caf50;
         }
 
         .status-error {
             background: #ffebee;
             color: #c62828;
-            border-left: 4px solid #c62828;
+            border-left: 4px solid #f44336;
         }
 
         .progress-container {
-            margin: 20px 0;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
 
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: #e0e0e0;
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.4s ease;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
         }
 
-        .progress-text {
-            font-size: 12px;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f4ff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e0e7ff;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
             color: #666;
-            text-align: right;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .download-buttons button {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
         }
 
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 13px;
+            font-size: 14px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .results-table th {
-            background: #f5f5f5;
-            padding: 12px;
+            background: #f8f9fa;
+            padding: 14px;
             text-align: left;
             font-weight: 600;
             color: #333;
@@ -231,12 +390,12 @@
         }
 
         .results-table td {
-            padding: 12px;
+            padding: 12px 14px;
             border-bottom: 1px solid #f0f0f0;
         }
 
-        .results-table tr:hover {
-            background: #fafafa;
+        .results-table tbody tr:hover {
+            background: #f8f9ff;
         }
 
         .cell-truncate {
@@ -246,65 +405,112 @@
             text-overflow: ellipsis;
         }
 
-        .download-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .download-buttons button {
-            flex: 1;
-            padding: 10px;
-            font-size: 13px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            border: 1px solid #e0e0e0;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: 700;
+        .cell-link {
             color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .stat-label {
-            font-size: 12px;
+        .cell-link:hover {
+            text-decoration: underline;
+        }
+
+        /* INFO PANEL */
+        .info-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            display: none;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .info-text {
             color: #666;
-            margin-top: 5px;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .spinner {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 3px solid #f0f0f0;
             border-top-color: #667eea;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             display: inline-block;
-            margin-right: 8px;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        .hidden {
-            display: none;
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        @media (max-width: 600px) {
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
             .form-row {
                 grid-template-columns: 1fr;
             }
@@ -314,105 +520,160 @@
             }
 
             .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                padding: 25px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .cell-truncate {
+                max-width: 100px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📍 Google Maps Scraper</h1>
-            <p>Extract business data from Google Maps</p>
-        </div>
-
-        <div class="content">
-            <!-- Search Form -->
-            <div id="formSection">
-                <div class="form-group">
-                    <label for="keyword">Business Type / Keyword *</label>
-                    <input type="text" id="keyword" placeholder="e.g., Restaurant, Coffee Shop, Plumber" required>
+    <div class="wrapper">
+        <div class="main-container">
+            <!-- LEFT PANEL: FORM -->
+            <div class="form-panel" id="formSection">
+                <div class="header">
+                    <h1>Google Maps Scraper Pro</h1>
+                    <p>Extract business data from Google Maps</p>
+                    <div class="header-badge">v2.0 Professional Edition</div>
                 </div>
 
-                <div class="form-group">
-                    <label for="city">City / Area *</label>
-                    <input type="text" id="city" placeholder="e.g., New York, London, Tokyo" required>
-                </div>
-
-                <div class="form-row">
+                <div class="content">
                     <div class="form-group">
-                        <label for="maxResults">Max Results (optional)</label>
-                        <input type="number" id="maxResults" placeholder="Leave empty for all" min="1">
+                        <label><span class="form-icon">🔍</span> Business Type / Keyword *</label>
+                        <input type="text" id="keyword" placeholder="e.g., Restaurant, Coffee Shop, Plumber" required>
+                        <div class="help-text">What type of business are you looking for?</div>
                     </div>
 
                     <div class="form-group">
-                        <label>&nbsp;</label>
-                        <select id="timeout">
-                            <option value="300">Timeout: 5 min</option>
-                            <option value="600">Timeout: 10 min</option>
-                            <option value="900">Timeout: 15 min</option>
-                            <option value="1800">Timeout: 30 min</option>
-                        </select>
+                        <label><span class="form-icon">📍</span> City / Area *</label>
+                        <input type="text" id="city" placeholder="e.g., New York, London, Tokyo" required>
+                        <div class="help-text">Where should we search?</div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Options</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="headless" checked>
-                            <label for="headless">Headless Mode</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><span class="form-icon">📊</span> Max Results</label>
+                            <input type="number" id="maxResults" placeholder="Leave empty for all" min="1" max="500">
+                            <div class="help-text">Limit results (for testing)</div>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="noEmails">
-                            <label for="noEmails">Skip Emails</label>
+
+                        <div class="form-group">
+                            <label><span class="form-icon">⏱️</span> Timeout</label>
+                            <select id="timeout">
+                                <option value="300">5 minutes (fast)</option>
+                                <option value="600" selected>10 minutes (recommended)</option>
+                                <option value="900">15 minutes (thorough)</option>
+                                <option value="1200">20 minutes (very thorough)</option>
+                                <option value="1800">30 minutes (exhaustive)</option>
+                            </select>
+                            <div class="timeout-info">⚠️ Longer timeouts = more results but slower</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="button-group">
-                    <button class="btn-primary" id="startBtn" onclick="startScraping()">🚀 Start Scraping</button>
-                    <button class="btn-secondary" onclick="resetForm()">↻ Reset</button>
+                    <div class="form-group">
+                        <label style="color: #667eea; font-weight: 700; margin-bottom: 15px;">⚙️ Advanced Options</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="headless" checked>
+                                <label for="headless">🎭 Headless Mode (Faster - no visible browser)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noEmails">
+                                <label for="noEmails">⚡ Skip Email Extraction (Much faster)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" id="startBtn" onclick="startScraping()">
+                            <i class="fas fa-play"></i> Start Scraping
+                        </button>
+                        <button class="btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Status Section -->
-            <div class="status-section hidden" id="statusSection">
-                <div id="statusMessage" class="status-message"></div>
-                
-                <div id="progressContainer" class="progress-container hidden">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
+            <!-- RIGHT PANEL: STATUS/RESULTS -->
+            <div class="status-panel">
+                <!-- STATUS CARD -->
+                <div class="status-card" id="statusSection" style="display: none;">
+                    <div class="status-title">
+                        <i class="fas fa-pulse" style="animation: spin 1s linear infinite;"></i> Live Progress
                     </div>
-                    <div class="progress-text"><span id="progressPercent">0</span>%</div>
+                    
+                    <div id="statusMessage" class="status-message"></div>
+                    
+                    <div id="progressContainer" class="progress-container" style="display: none;">
+                        <div class="progress-header">
+                            <span>Scraping Progress</span>
+                            <span id="progressPercent" style="font-weight: 700; color: #667eea;">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+
+                    <div id="statsContainer" class="stats-grid" style="display: none;">
+                        <div class="stat-card">
+                            <div class="stat-icon">📍</div>
+                            <div class="stat-number" id="statTotal">0</div>
+                            <div class="stat-label">Total Businesses</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📞</div>
+                            <div class="stat-number" id="statPhone">0</div>
+                            <div class="stat-label">With Phone</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🌐</div>
+                            <div class="stat-number" id="statWebsite">0</div>
+                            <div class="stat-label">With Website</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✉️</div>
+                            <div class="stat-number" id="statEmail">0</div>
+                            <div class="stat-label">With Email</div>
+                        </div>
+                    </div>
+
+                    <div id="downloadButtons" class="download-buttons" style="display: none;">
+                        <button class="btn-primary" onclick="downloadCSV()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-download"></i> CSV
+                        </button>
+                        <button class="btn-primary" onclick="downloadJSON()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-download"></i> JSON
+                        </button>
+                    </div>
                 </div>
 
-                <div id="statsContainer" class="stats-grid hidden">
-                    <div class="stat-card">
-                        <div class="stat-number" id="statTotal">0</div>
-                        <div class="stat-label">Total Businesses</div>
+                <!-- RESULTS CARD -->
+                <div class="status-card results-section" id="resultsContainer" style="display: none;">
+                    <div class="results-header">
+                        <i class="fas fa-table"></i> Preview Results (First 10)
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="statPhone">0</div>
-                        <div class="stat-label">With Phone</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="statWebsite">0</div>
-                        <div class="stat-label">With Website</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="statEmail">0</div>
-                        <div class="stat-label">With Email</div>
-                    </div>
-                </div>
-
-                <div id="downloadButtons" class="download-buttons hidden">
-                    <button class="btn-primary" onclick="downloadCSV()">📥 Download CSV</button>
-                    <button class="btn-secondary" onclick="downloadJSON()">📥 Download JSON</button>
-                </div>
-
-                <div id="resultsContainer" class="hidden">
-                    <h3 style="margin-top: 25px; margin-bottom: 15px;">Preview Results</h3>
                     <div style="overflow-x: auto;">
                         <table class="results-table" id="resultsTable">
                             <thead>
@@ -426,12 +687,43 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- INFO PANEL -->
+                <div class="info-panel" id="infoPanel">
+                    <div class="info-title">ℹ️ How It Works</div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">🔍 SEARCH & LOAD</div>
+                        <div class="info-text">We search Google Maps for your keyword in the specified city, then scroll through all results to load them.</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">📊 EXTRACT DATA</div>
+                        <div class="info-text">For each business, we extract: name, address, phone, website. All 100% automated.</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">✉️ EMAIL MINING</div>
+                        <div class="info-text">We visit each website and extract emails using smart regex patterns (optional, can be slow).</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">🧹 DEDUPLICATE</div>
+                        <div class="info-text">Removes duplicates and merges data from multiple sources for accuracy.</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">💾 EXPORT</div>
+                        <div class="info-text">Results saved as CSV (spreadsheet) and JSON (for APIs). Ready to use!</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         const statusPollingInterval = 500; // ms
+        let isScrapingActive = false;
 
         async function startScraping() {
             const keyword = document.getElementById('keyword').value.trim();
@@ -439,17 +731,23 @@
             const maxResults = document.getElementById('maxResults').value;
             const noEmails = document.getElementById('noEmails').checked;
             const headless = document.getElementById('headless').checked;
+            const timeout = document.getElementById('timeout').value;
 
             if (!keyword || !city) {
-                alert('Please enter both keyword and city');
+                showNotification('Please enter both keyword and city', 'error');
                 return;
             }
 
+            isScrapingActive = true;
             document.getElementById('formSection').style.display = 'none';
-            document.getElementById('statusSection').classList.remove('hidden');
-            document.getElementById('progressContainer').classList.remove('hidden');
+            document.getElementById('statusSection').style.display = 'block';
+            document.getElementById('infoPanel').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('statsContainer').style.display = 'none';
+            document.getElementById('downloadButtons').style.display = 'none';
 
-            showStatus('Initializing...', 'info');
+            showStatus('🚀 Initializing scraper...', 'info');
 
             try {
                 const response = await fetch('/api/scrape', {
@@ -460,7 +758,8 @@
                         city,
                         max_results: maxResults ? parseInt(maxResults) : null,
                         no_emails: noEmails,
-                        headless
+                        headless,
+                        timeout: parseInt(timeout)
                     })
                 });
 
@@ -473,7 +772,7 @@
                 pollStatus();
             } catch (error) {
                 showStatus(`❌ Error: ${error.message}`, 'error');
-                document.getElementById('formSection').style.display = 'block';
+                isScrapingActive = false;
             }
         }
 
@@ -487,7 +786,7 @@
                     document.getElementById('progressFill').style.width = status.progress + '%';
                     document.getElementById('progressPercent').textContent = status.progress;
 
-                    // Update message
+                    // Update message with animation
                     if (status.message) {
                         showStatus(status.message, status.error ? 'error' : 'info');
                     }
@@ -495,15 +794,21 @@
                     // Check if complete
                     if (!status.running) {
                         clearInterval(poll);
+                        isScrapingActive = false;
 
                         if (status.error) {
                             showStatus(`❌ Error: ${status.error}`, 'error');
+                            setTimeout(() => {
+                                document.getElementById('formSection').style.display = 'block';
+                                document.getElementById('statusSection').style.display = 'none';
+                                document.getElementById('infoPanel').style.display = 'block';
+                            }, 2000);
                         } else if (status.results) {
                             displayResults(status.results);
-                            showStatus('✅ Scraping complete!', 'success');
-                            document.getElementById('downloadButtons').classList.remove('hidden');
-                            document.getElementById('resultsContainer').classList.remove('hidden');
-                            document.getElementById('statsContainer').classList.remove('hidden');
+                            showStatus('✅ Scraping complete! Ready to download.', 'success');
+                            document.getElementById('statsContainer').style.display = 'grid';
+                            document.getElementById('downloadButtons').style.display = 'flex';
+                            document.getElementById('resultsContainer').style.display = 'block';
                         }
                     }
                 } catch (error) {
@@ -517,6 +822,10 @@
             el.textContent = message;
             el.className = `status-message status-${type}`;
             el.style.display = 'block';
+        }
+
+        function showNotification(message, type = 'info') {
+            alert(message);
         }
 
         function displayResults(results) {
@@ -537,11 +846,11 @@
             results.slice(0, 10).forEach(result => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><strong>${result.name}</strong></td>
+                    <td><strong>${result.name || '—'}</strong></td>
                     <td class="cell-truncate">${result.phone || '—'}</td>
                     <td class="cell-truncate">
                         ${result.website && result.website !== 'N/A' 
-                            ? `<a href="${result.website}" target="_blank" style="color:#667eea">View</a>` 
+                            ? `<a href="${result.website}" target="_blank" class="cell-link">View</a>` 
                             : '—'}
                     </td>
                 `;
@@ -550,7 +859,7 @@
 
             if (results.length > 10) {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="3" style="text-align:center;color:#999">... and ${results.length - 10} more</td>`;
+                row.innerHTML = `<td colspan="3" style="text-align:center;color:#999;padding:15px;">... and ${results.length - 10} more businesses</td>`;
                 tbody.appendChild(row);
             }
         }
@@ -564,12 +873,26 @@
         }
 
         function resetForm() {
+            if (isScrapingActive) {
+                showNotification('Scraping is still in progress. Please wait.');
+                return;
+            }
+            
             document.getElementById('formSection').style.display = 'block';
-            document.getElementById('statusSection').classList.add('hidden');
+            document.getElementById('statusSection').style.display = 'none';
+            document.getElementById('infoPanel').style.display = 'block';
             document.getElementById('keyword').value = '';
             document.getElementById('city').value = '';
             document.getElementById('maxResults').value = '';
+            document.getElementById('headless').checked = true;
+            document.getElementById('noEmails').checked = false;
+            document.getElementById('timeout').value = '600';
         }
+
+        // Initialize: Show info panel on load
+        window.addEventListener('load', () => {
+            document.getElementById('infoPanel').style.display = 'block';
+        });
     </script>
 </body>
 </html>

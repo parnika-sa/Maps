@@ -41,6 +41,7 @@ def start_scrape():
     max_results = data.get('max_results')
     no_emails = data.get('no_emails', False)
     headless = data.get('headless', True)
+    timeout = data.get('timeout', 300)  # Default 5 minutes
     
     if not keyword or not city:
         return jsonify({"error": "Keyword and city are required"}), 400
@@ -59,14 +60,14 @@ def start_scrape():
     # Start scraper in background thread
     thread = threading.Thread(
         target=run_scraper,
-        args=(keyword, city, max_results, no_emails, headless)
+        args=(keyword, city, max_results, no_emails, headless, timeout)
     )
     thread.daemon = True
     thread.start()
     
     return jsonify({"status": "started"})
 
-def run_scraper(keyword, city, max_results, no_emails, headless):
+def run_scraper(keyword, city, max_results, no_emails, headless, timeout):
     global scraper_status
     
     try:
@@ -76,7 +77,8 @@ def run_scraper(keyword, city, max_results, no_emails, headless):
             "maps_scraper.py",
             "--keyword", keyword,
             "--city", city,
-            "--verbose"
+            "--verbose",
+            "--timeout", str(timeout)
         ]
         
         if headless:
@@ -88,7 +90,7 @@ def run_scraper(keyword, city, max_results, no_emails, headless):
         if no_emails:
             cmd.append("--no-emails")
         
-        scraper_status["message"] = "Launching browser..."
+        scraper_status["message"] = "🚀 Launching browser..."
         scraper_status["progress"] = 5
         
         # Run scraper
@@ -99,8 +101,8 @@ def run_scraper(keyword, city, max_results, no_emails, headless):
             cwd=os.path.dirname(os.path.abspath(__file__))
         )
         
-        scraper_status["progress"] = 50
-        scraper_status["message"] = "Processing results..."
+        scraper_status["progress"] = 75
+        scraper_status["message"] = "📊 Processing results..."
         
         if result.returncode != 0:
             scraper_status["error"] = result.stderr or "Scraper failed"
